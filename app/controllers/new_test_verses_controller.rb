@@ -1,0 +1,2 @@
+class NewTestVersesController < ApplicationController
+end

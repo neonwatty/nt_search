@@ -1,2 +1,0 @@
-class NewTestBookNameController < ApplicationController
-end
