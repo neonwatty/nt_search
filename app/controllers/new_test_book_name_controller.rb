@@ -1,0 +1,2 @@
+class NewTestBookNameController < ApplicationController
+end

@@ -1,0 +1,2 @@
+class NewTestBookName < ApplicationRecord
+end
