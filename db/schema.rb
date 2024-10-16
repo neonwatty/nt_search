@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_16_162940) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_16_162941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,13 +27,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_16_162940) do
     t.string "verse_content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["new_test_book_name_id", "chapter_number", "verse_number"], name: "index_new_test_verses_on_book_and_chapter_and_verse", unique: true
     t.index ["new_test_book_name_id"], name: "index_new_test_verses_on_new_test_book_name_id"
   end
 
   create_table "new_test_words", force: :cascade do |t|
     t.bigint "new_test_book_name_id", null: false
-    t.integer "chapter_number"
     t.integer "verse_number"
+    t.integer "chapter_number"
     t.string "original_word"
     t.string "stemmed_word"
     t.integer "word_number"

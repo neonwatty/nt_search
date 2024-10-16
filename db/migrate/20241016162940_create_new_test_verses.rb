@@ -8,5 +8,6 @@ class CreateNewTestVerses < ActiveRecord::Migration[7.2]
 
       t.timestamps
     end
+    add_index :new_test_verses, [:new_test_book_name_id, :chapter_number, :verse_number], unique: true, name: 'index_new_test_verses_on_book_and_chapter_and_verse'
   end
 end
