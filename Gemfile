@@ -65,3 +65,5 @@ gem "pg"
 gem "pg_search"
 gem "pagy", "~> 9.0"
 gem "dotenv"
+
+gem "tailwindcss-rails", "~> 3.0"
