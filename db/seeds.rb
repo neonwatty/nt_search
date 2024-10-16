@@ -1,8 +1,7 @@
 require 'json'
 
-# Load JSON data from the file
+# load in nt book names
 nt_book_file_path = Rails.root.join('db', 'seeds', 'nt_book_names.json')
-
 begin
   json_data = File.read(nt_book_file_path)
   names = JSON.parse(json_data)
@@ -20,6 +19,65 @@ begin
   puts "Seeding complete."
 rescue Errno::ENOENT
   puts "JSON file not found: #{nt_book_file_path}"
+rescue JSON::ParserError
+  puts "Failed to parse JSON file."
+end
+
+
+# load in nt words
+nt_word_file_path = Rails.root.join('db', 'seeds', 'nt_word_dict.json')
+
+begin
+  json_data = File.read(nt_word_file_path)
+  words = JSON.parse(json_data)
+
+  # Create records in the database
+  words.each do |datapoint|
+    word_data = NewTestVerse.new(
+      book_number: datapoint['book_number'],
+      chapter: datapoint['chapter_number'],
+      verse_number: datapoint['verse_number'],
+      original_word: datapoint['original_word'],
+      stemmed_word: datapoint['stemmed_word'],
+      word_number: datapoint['word_number']
+    )
+    if word_data.save
+    else
+      puts "Failed to import #{datapoint}: #{word_data.errors.full_messages.join(', ')}"
+    end
+  end
+
+  puts "Seeding complete."
+rescue Errno::ENOENT
+  puts "JSON file not found: #{nt_word_file_path}"
+rescue JSON::ParserError
+  puts "Failed to parse JSON file."
+end
+
+
+# load in nt verses
+nt_verse_file_path = Rails.root.join('db', 'seeds', 'nt_verse_dict.json')
+
+begin
+  json_data = File.read(nt_verse_file_path)
+  verses = JSON.parse(json_data)
+
+  # Create records in the database
+  verses.each do |datapoint|
+    verse_data = NewTestVerse.new(
+      book_number: datapoint['book_number'],
+      chapter: datapoint['chapter_number'],
+      verse_number: datapoint['verse_number'],
+      verse_content: datapoint['verse_content'],
+    )
+    if verse_data.save
+    else
+      puts "Failed to import #{datapoint}: #{verse_data.errors.full_messages.join(', ')}"
+    end
+  end
+  puts "Seeding complete."
+rescue Errno::ENOENT
+  puts "JSON file not found: #{nt_verse_file_path}"
 rescue JSON::ParserError
   puts "Failed to parse JSON file."
 end

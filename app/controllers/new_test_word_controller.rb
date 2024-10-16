@@ -1,0 +1,2 @@
+class NewTestWordController < ApplicationController
+end
