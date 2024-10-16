@@ -10,13 +10,12 @@ begin
   names.each do |name|
     book = NewTestBookName.new(title: name)
     if book.save
-      puts "Imported: #{name}"
     else
       puts "Failed to import #{name}: #{book.errors.full_messages.join(', ')}"
     end
   end
 
-  puts "Seeding complete."
+  puts "Nt book names seeding complete."
 rescue Errno::ENOENT
   puts "JSON file not found: #{nt_book_file_path}"
 rescue JSON::ParserError
@@ -33,9 +32,11 @@ begin
 
   # Create records in the database
   words.each do |datapoint|
-    word_data = NewTestVerse.new(
-      book_number: datapoint['book_number'],
-      chapter: datapoint['chapter_number'],
+    book = NewTestBookName.find(datapoint['book_number'])
+
+    word_data = NewTestWord.new(
+      new_test_book_name: book,
+      chapter_number: datapoint['chapter_number'],
       verse_number: datapoint['verse_number'],
       original_word: datapoint['original_word'],
       stemmed_word: datapoint['stemmed_word'],
@@ -47,7 +48,7 @@ begin
     end
   end
 
-  puts "Seeding complete."
+  puts "Nt words seeding complete."
 rescue Errno::ENOENT
   puts "JSON file not found: #{nt_word_file_path}"
 rescue JSON::ParserError
@@ -64,9 +65,10 @@ begin
 
   # Create records in the database
   verses.each do |datapoint|
+    book = NewTestBookName.find(datapoint['book_number'])
     verse_data = NewTestVerse.new(
-      book_number: datapoint['book_number'],
-      chapter: datapoint['chapter_number'],
+      new_test_book_name: book,
+      chapter_number: datapoint['chapter_number'],
       verse_number: datapoint['verse_number'],
       verse_content: datapoint['verse_content'],
     )
@@ -75,7 +77,7 @@ begin
       puts "Failed to import #{datapoint}: #{verse_data.errors.full_messages.join(', ')}"
     end
   end
-  puts "Seeding complete."
+  puts "Nt verse seeding complete."
 rescue Errno::ENOENT
   puts "JSON file not found: #{nt_verse_file_path}"
 rescue JSON::ParserError
