@@ -1,9 +1,9 @@
 <div class="flex flex-col items-center justify-center">
-  <%= form_with url: new_test_word_search_items_uploads_path, local: true, method: :post, data: {controller: "debounce", debounce_target: "form"} do |form| %>
+  <%= form_with url: search_items_new_test_words_path, local: true, method: :post, data: {controller: "debounce", debounce_target: "form"} do |form| %>
     <%= form.search_field :query, data: {action: "input->debounce#search"}, placeholder: 'search NT verses', class: "search-input-field", id: "search-box" %>
     <%= form.hidden_field :source, value: 'form' %>
   <% end %>
 </div>
 <div id="search_results" class="flex-col gap-x-5 gap-y-10"">
-  <%= render "new_test_word/no_search" %>
+  <%= render "new_test_words/no_search" %>
 </div>

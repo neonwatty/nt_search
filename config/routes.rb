@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
+
+  # Render dynamic PWA files from app/views/pwa/*
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
   # Search route
   get "search", to: "new_test_words#search"
 
   # Resources for 'new_test_words' with custom collection route
   resources :new_test_words, except: [:create, :show, :update, :edit, :new, :destroy] do
     collection do
-      get "search" # Use GET for search, typically for form submissions
-      post "search", to: "new_test_words#search" # If you want to allow POST too
+      post "search_items"
     end
   end
 
   # Set the root path to the search action
-  root to: 'new_test_words#search'
+  root 'new_test_words#search'
 end
