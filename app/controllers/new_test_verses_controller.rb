@@ -8,10 +8,14 @@ class NewTestVersesController < ApplicationController
 
   def search_items
     @query = search_params["query"]
-    @query = remove_stopwords(@query)
-    # @verses = NewTestVerse.search_any_word(@query).limit(10) || []
-    @verses = vector_search(@query)
-    # @words = @words.sort_by { |word| [-word.chapter_number, -word.verse_number] }
+    @checkbox_value = search_params["checkbox_value"]
+    if @checkbox_value == "0" # keyword
+      @query = remove_stopwords(@query)
+      @verses = NewTestVerse.search_any_word(@query).limit(10) || []
+    end
+    if @checkbox_value == "1" # vector
+      @verses = vector_search(@query)
+    end
 
     respond_to do |format|
       # resopnd to turbo
@@ -37,11 +41,11 @@ class NewTestVersesController < ApplicationController
   private
 
   def search_params
-    params.permit([ :query, :authenticity_token, :source, :controller, :action ])
+    params.permit([ :query, :checkbox_value, :authenticity_token, :source, :controller, :action ])
   end
 
   def remove_stopwords(input_string)
-    stopwords = %w[i me my myself we our ours ourselves you your yours yourself yourselves he him his himself she her hers herself it its itself they them their theirs themselves what which who whom this that these those am is are was were be been being have has had having do does did doing a an the and but if or as until while of at by for with above below to from up down in out on off over under how all any both each few more most other some such no nor not only own same so than too very s]
+    stopwords = %w[a i me my myself we our ours ourselves you your yours yourself yourselves he him his himself she her hers herself it its itself they them their theirs themselves what which who whom this that these those am is are was were be been being have has had having do does did doing a an the and but if or as until while of at by for with above below to from up down in out on off over under how all any both each few more most other some such no nor not only own same so than too very s]
 
     words = input_string.split
     filtered_words = words.reject { |word| stopwords.include?(word.downcase) }

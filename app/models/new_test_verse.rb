@@ -26,7 +26,8 @@ class NewTestVerse < ApplicationRecord
   end
 
   def get_neighbors
-    self.nearest_neighbors(:verse_embedding, distance: "cosine").first(5)#.map(&:verse_content)
+    self.nearest_neighbors(:verse_embedding, distance: "cosine").first(10)
+
   end
 
   def compute_embedding
