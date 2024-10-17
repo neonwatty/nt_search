@@ -15,7 +15,7 @@ class NewTestWordsController < ApplicationController
         if @query.blank?
           render turbo_stream: turbo_stream.update("search_results", partial: "new_test_words/no_search")
         else
-          render turbo_stream: turbo_stream.update("search_results", partial: "new_test_words/search_results", locals: { words: @words })
+          render turbo_stream: turbo_stream.update("search_results", partial: "new_test_words/search_results", locals: { words: @words, query: @query })
         end
       end
 

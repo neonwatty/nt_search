@@ -12,7 +12,11 @@
                     <div class="font-bold">&nbsp;<%= word.chapter_number %>:</div>
                     <div class="font-bold"><%= word.verse_number %></div>
                   </div>
-                  <div class="text-sm opacity-50"><%= word.verse_from %></div>
+                  <% highlighted_verse = word.verse_from.dup %>
+                  <% @query.split.each do |term| %>
+                    <% highlighted_verse.gsub!(/\b(#{Regexp.escape(term)})\b/i, '<span class="highlight">\1</span>') %>
+                  <% end %>
+                  <div class="text-sm opacity-50"><%= highlighted_verse.html_safe %></div>
                 </div>
               </div>
             </div>
