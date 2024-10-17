@@ -1,3 +1,5 @@
+
+
 class NewTestVersesController < ApplicationController
   rate_limit to: 20, within: 1.minute, only: [ :search ], with: -> { redirect_to root_path, alert: "Too many requests. Please try again" }
 
@@ -7,7 +9,8 @@ class NewTestVersesController < ApplicationController
   def search_items
     @query = search_params["query"]
     @query = remove_stopwords(@query)
-    @verses = NewTestVerse.search_any_word(@query).limit(10) || []
+    # @verses = NewTestVerse.search_any_word(@query).limit(10) || []
+    @verses = vector_search(@query)
     # @words = @words.sort_by { |word| [-word.chapter_number, -word.verse_number] }
 
     respond_to do |format|
@@ -46,4 +49,9 @@ class NewTestVersesController < ApplicationController
     filtered_words.join(' ')
   end
 
+  def vector_search(query)
+    element = NewTestVerse.new({verse_content: query})
+    element.compute_embedding
+    element.get_neighbors
+  end
 end

@@ -5,6 +5,7 @@ class CreateNewTestVerses < ActiveRecord::Migration[7.2]
       t.integer :chapter_number
       t.integer :verse_number
       t.string :verse_content
+      t.vector :verse_embedding, limit: 384
 
       t.timestamps
     end
