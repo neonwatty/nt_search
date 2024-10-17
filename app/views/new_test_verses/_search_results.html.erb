@@ -1,18 +1,18 @@
 <div id="search-results-returned">
-  <% if @words.present? %>
+  <% if @verses.present? %>
     <div class="flex flex-col items-center justify-center p-5 h-full bg-white dark:bg-slate-800">
       <div class="block 2xl:hidden">
-        <% @words.each_with_index do |word, index| %>
-          <div class="bg-gray-100 dark:bg-slate-700 shadow-lg text-slate-900 dark:text-white p-3 mt-5 rounded-xl">
+        <% @verses.each_with_index do |verse, index| %>
+          <div class="bg-gray-100 dark:bg-slate-700 shadow-lg text-slate-900 dark:text-white p-3 mt-5 rounded-xl hover hover:shadow-amber-200">
             <div class="w-full h-1/2 rounded-xl">
               <div class="flex items-center gap-3">
                 <div>
                   <div class="flex flex-row">
-                    <div class="font-bold"><%= word.book_from %></div>
-                    <div class="font-bold">&nbsp;<%= word.chapter_number %>:</div>
-                    <div class="font-bold"><%= word.verse_number %></div>
+                    <div class="font-bold"><%= verse.book_from %></div>
+                    <div class="font-bold">&nbsp;<%= verse.chapter_number %>:</div>
+                    <div class="font-bold"><%= verse.verse_number %></div>
                   </div>
-                  <% highlighted_verse = word.verse_from.dup %>
+                  <% highlighted_verse = verse.verse_content.dup %>
                   <% @query.split.each do |term| %>
                     <% highlighted_verse.gsub!(/\b(#{Regexp.escape(term)})\b/i, '<span class="highlight">\1</span>') %>
                   <% end %>
@@ -24,7 +24,7 @@
         <% end %>
       </div>
     <% else %>
-      <%= render 'new_test_words/no_search_results' %>
+      <%= render 'new_test_verses/no_search_results' %>
     <% end %>
   </div>
 </div>

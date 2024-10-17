@@ -5,15 +5,15 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Search route
-  get "search", to: "new_test_words#search"
+  get "search", to: "new_test_verses#search"
 
-  # Resources for 'new_test_words' with custom collection route
-  resources :new_test_words, except: [:create, :show, :update, :edit, :new, :destroy] do
+  # Resources for 'new_test_verses' with custom collection route
+  resources :new_test_verses, except: [:create, :show, :update, :edit, :new, :destroy] do
     collection do
       post "search_items"
     end
   end
 
   # Set the root path to the search action
-  root 'new_test_words#search'
+  root 'new_test_verses#search'
 end
