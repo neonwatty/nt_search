@@ -1,4 +1,8 @@
 require 'json'
+require 'informers'
+
+model = Informers.pipeline("embedding", "sentence-transformers/all-MiniLM-L6-v2")
+
 
 # load in nt book names
 nt_book_file_path = Rails.root.join('db', 'seeds', 'nt_book_names.json')
@@ -33,11 +37,14 @@ begin
   # Create records in the database
   verses.each do |datapoint|
     book = NewTestBookName.find(datapoint['book_number'])
+    embedding = model.(datapoint["verse_content"])
+
     verse_data = NewTestVerse.new(
       new_test_book_name: book,
       chapter_number: datapoint['chapter_number'],
       verse_number: datapoint['verse_number'],
       verse_content: datapoint['verse_content'],
+      verse_embedding: embedding
     )
     if verse_data.save
     else

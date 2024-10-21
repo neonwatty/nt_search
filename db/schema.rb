@@ -13,6 +13,7 @@
 ActiveRecord::Schema[7.2].define(version: 2024_10_16_162940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "vector"
 
   create_table "new_test_book_names", force: :cascade do |t|
     t.text "title"
@@ -25,6 +26,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_16_162940) do
     t.integer "chapter_number"
     t.integer "verse_number"
     t.string "verse_content"
+    t.vector "verse_embedding", limit: 384
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["new_test_book_name_id", "chapter_number", "verse_number"], name: "index_new_test_verses_on_book_and_chapter_and_verse", unique: true
