@@ -63,7 +63,7 @@ end
 # user added
 gem "pg"
 gem "pg_search"
-gem "pagy", "~> 9.0"
+gem "pagy", "~> 9.2"
 gem "dotenv"
 gem "tailwindcss-rails", "~> 3.0"
 gem 'neighbor'
